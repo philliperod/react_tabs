@@ -5,7 +5,7 @@ const url = 'https://course-api.netlify.app/api/react-tabs-project';
 function App() {
   const [loading, setLoading] = useState(true);
   const [jobs, setJobs] = useState([]);
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
 
   const fetchJobs = async () => {
     const response = await fetch(url);
@@ -26,7 +26,42 @@ function App() {
     );
   }
 
-  return <h2>tabs project setup</h2>;
+  const { company, dates, title, duties } = jobs[value];
+
+  return (
+    <section className="section">
+      <div className="title">
+        <h2>experience</h2>
+        <div className="underline"></div>
+      </div>
+      <div className="jobs-center">
+        {/* {btn container} */}
+        <div className="btn-container">
+          {jobs.map((item, index) => {
+            return (
+              <button key={item.id} onClick={() => setValue(index)}>
+                {item.company}
+              </button>
+            );
+          })}
+        </div>
+        {/* job info */}
+        <article className="job-info">
+          <h3>{title}</h3>
+          <h4>{company}</h4>
+          <p className="job-date">{dates}</p>
+          {duties.map((duty) => {
+            return (
+              <div className="job-desc">
+                <FaAngleDoubleRight className="job-icon" />
+                <p>{duty}</p>
+              </div>
+            );
+          })}
+        </article>
+      </div>
+    </section>
+  );
 }
 
 export default App;
@@ -38,3 +73,7 @@ export default App;
 // 5) invoke state function setLoading and return it false
 // 6) invoke the useEffect hook which will invoke the fetch function and run it once as its dependency is an empty array (prevents memory leaks)
 // 7) create a conditional that if the state value loading is true then return a "loading..." to the screen
+// 8) create a destructured array which will equal to jobs which uses the state value at its initial value; must be placed after the loading conditional
+// 9) structured out your jsx
+// 10) for the duties property, you want to iterate over all the prop values by using a map() method
+// 11) create another map() method that uses the variable jobs that returns a button which once click it will look for the id and invoke the state function setValue which will output its data associated with that id value
